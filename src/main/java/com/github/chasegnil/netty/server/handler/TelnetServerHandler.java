@@ -16,7 +16,7 @@ public class TelnetServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         // 为新连接发送问候
-        ctx.write("欢迎来到：" + InetAddress.getLocalHost().getHostName() + "!\r\n");
+        ctx.write("欢迎您：" + InetAddress.getLocalHost().getHostName() + "!\r\n");
         ctx.write("现在是：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "\r\n");
         ctx.flush();
     }
