@@ -1,0 +1,85 @@
+<included>
+    <property name="log_path" value="/opt/netty/netty-demo-telnet/logs"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M\(%line\)- %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="verbose_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${log_path}/verbose.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/verbose/verbose.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level %class.%M\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="debug_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${log_path}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/debug/debug.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level %class.%M\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="info_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${log_path}/info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/info/info.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level %class.%M\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="error_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${log_path}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log_path}/error/error.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level %class.%M\(%line\) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 本工程日志级别，打印信息不向上级传递 -->
+    <logger name="com.github.chasegnil" level="error" additivity="false">
+        <appender-ref ref="error_log"/>
+    </logger>
+
+    <!-- 控制本工程之外的其它jar包的日志级别 -->
+    <root level="error">
+        <appender-ref ref="error_log"/>
+    </root>
+</included>

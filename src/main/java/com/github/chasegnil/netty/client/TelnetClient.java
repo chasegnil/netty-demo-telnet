@@ -1,6 +1,7 @@
 package com.github.chasegnil.netty.client;
 
 import com.github.chasegnil.netty.client.initializer.TelnetClientInitializer;
+import com.github.chasegnil.netty.server.TelnetServer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -10,6 +11,9 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,13 +21,17 @@ import java.io.InputStreamReader;
 /**
  * 简单的 telnet client.
  */
+@Component
 public final class TelnetClient {
+
+    private static final Logger logger = LoggerFactory.getLogger(TelnetClient.class);
 
     private static final boolean SSL = System.getProperty("ssl") != null;
     public static final String HOST = System.getProperty("host", "127.0.0.1");
     public static final int PORT = Integer.parseInt(System.getProperty("port", SSL ? "8992" : "8023"));
 
     public static void main(String[] args) throws Exception {
+        logger.debug("start {} client", "telnet");
         // 配置SSL
         SslContext sslContext;
         if (SSL) {

@@ -9,6 +9,8 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 
 public class TelnetClientInitializer extends ChannelInitializer<SocketChannel> {
@@ -36,6 +38,7 @@ public class TelnetClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(DECODER);
         pipeline.addLast(ENCODER);
 
+        pipeline.addLast(new LoggingHandler("client端动作", LogLevel.INFO));
         // 然后是业务逻辑
         pipeline.addLast(CLIENT_HANDLER);
 

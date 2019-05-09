@@ -10,13 +10,20 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TelnetServer {
 
-    private static final boolean SSL = System.getProperty("ssl") != null;
-    private static final int PORT = Integer.parseInt(System.getProperty("port", SSL ? "8992" : "8023"));
+    private final Logger logger = LoggerFactory.getLogger(TelnetServer.class);
 
-    public static void main(String[] args) throws Exception {
+    private final boolean SSL = System.getProperty("ssl") != null;
+    private final int PORT = Integer.parseInt(System.getProperty("port", SSL ? "8992" : "8023"));
+
+    public void start() throws Exception {
+        logger.debug("start {} server", "telnet");
         // 配置SSL
         SslContext sslContext;
         if (SSL) {

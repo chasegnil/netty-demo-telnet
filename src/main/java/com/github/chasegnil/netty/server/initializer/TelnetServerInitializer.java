@@ -8,7 +8,10 @@ import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
+import io.netty.util.internal.logging.Slf4JLoggerFactory;
 
 /**
  * Creates a newly configured {@link io.netty.channel.ChannelPipeline} for a new channel.
@@ -39,6 +42,7 @@ public class TelnetServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(DECODER);
         pipeline.addLast(ENCODER);
 
+        pipeline.addLast(new LoggingHandler("server端动作", LogLevel.INFO));
         // 然后是业务逻辑
         pipeline.addLast(SERVER_HANDLER);
     }
